@@ -1,0 +1,5 @@
+main.m contains the main loop and decides the overall flow of the game
+parameters.m contains the list of variables and properties and initial conditions
+Player.m contains the player class and the associated functions and behaviours
+obstacleDetection.m detects if there are players from the opposite team in the vicinity (needs update)
+redStrikerBehaviour and redDefenderBehaviour are templates for the striker and defender behaviour. Work on building the behaviour
