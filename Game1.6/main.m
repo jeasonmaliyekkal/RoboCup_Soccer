@@ -4,7 +4,7 @@ clear;
 plotSoccerField;
 
 %% Simulation setup
-simulationTime = 15;
+simulationTime = 20;
 stepSize = 0.05;
 % frame_rate = PLAYER_SPEED;
 TIME_STEP = 0.1;
@@ -46,6 +46,21 @@ for t = 1:simSteps
         [red_striker, red_defender2, ball]  = redDefenderBehaviour(red_striker, red_defender2, ball, ballPlot, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, defender2Plot, positionMatrixR,positionMatrixB);
         end
        
+        % check for ball boundary 
+        if ball.position(1) >= 10.5
+            fprintf("ball in")
+            pause(3);
+            red_striker.position = [4.5,4];
+            red_striker.updatePos(strikerPlot);
+            red_defender1.position=[3, 8/3];
+            red_defender1.updatePos(defender1Plot);
+            red_defender2.position=[3,16/3];
+            red_defender2.updatePos(defender2Plot);
+
+            ball.position = [11/2,4];
+            ball.updatePlot(ballPlot);
+            pause(3);   % next code should be blue team take turns, flag should be changed
+        end
 
         if(ball.velocity > 0 && ball.possessed == 0)
             ball = ball.calcPhysics(TIME_STEP);
