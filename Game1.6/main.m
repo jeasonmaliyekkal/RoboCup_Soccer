@@ -45,7 +45,12 @@ for t = 1:simSteps
         if(t > 20)
         [red_striker, red_defender2, ball]  = redDefenderBehaviour(red_striker, red_defender2, ball, ballPlot, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, defender2Plot, positionMatrixR,positionMatrixB);
         end
-       
+
+
+        %%When the red team is attacking, the blue team's goalkeeper makes an action
+        blue_gk = blueGoalKeeperBehaviour(blue_gk, ball, ballPlot, blue_gkPlot)
+
+
         % check for ball boundary 
         if ball.position(1) >= 10.5
             fprintf("ball in")
@@ -62,6 +67,7 @@ for t = 1:simSteps
             pause(3);   % next code should be blue team take turns, flag should be changed
         end
 
+        
         if(ball.velocity > 0 && ball.possessed == 0)
             ball = ball.calcPhysics(TIME_STEP);
             ball.updatePlot(ballPlot);
