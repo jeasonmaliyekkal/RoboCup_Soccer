@@ -1,6 +1,12 @@
 clc;
 clear;
 
+%% Simulate a coin toss
+if rand() < 0
+    kickoff_team = 'Red';
+else
+    kickoff_team = 'Blue';
+end
 plotSoccerField;
 
 %% Simulation setup
@@ -14,6 +20,9 @@ TIME_STEP = 0.1;
 scoreLeft = 0;
 scoreRight = 0;
 
+% Dimension for text box to print score
+dim = [.52 .9 0 0];
+
 %% Run the simulation
 
 simSteps = simulationTime/stepSize;
@@ -24,6 +33,17 @@ RESET = 0;
 temp = 0;
 BALL_POSSESSION = 'N';
 for t = 1:simSteps
+    
+     % title delayed to show who got toss
+    if(t<75)
+        title(sprintf("Robocup Soccer\n%s won the toss and chose to kickoff",kickoff_team));
+    else
+        title("Robocup Soccer");
+    end
+    
+    % Print scores
+    score_str = sprintf('%s %d : %d %s', "Team Red", scoreLeft, scoreRight, "Team Blue");
+    annotation('textbox',dim,'String',score_str,'FitBoxToText','on','LineStyle','none','HorizontalAlignment','center','FontSize',14, 'Color', 'white');
     
     positionMatrixR = [red_striker.position; red_defender1.position; red_defender2.position; red_gk.position];
     positionMatrixB = [blue_striker.position; blue_defender1.position; blue_defender2.position; blue_gk.position];

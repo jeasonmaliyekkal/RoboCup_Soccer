@@ -31,17 +31,22 @@ headingAngleB = [pi,pi,pi,pi];
 
 
 
-
-redStrikerPosition = [4.5, MapHeight/2];
 redDefender1Position = [3, MapHeight/3];
 redDefender2Position = [3, 2*MapHeight/3];
 redGoalkeeperPosition = [1, MapHeight/2];
 
-blueStrikerPosition = [MapLength-4.5, MapHeight/2];
 blueDefender1Position = [MapLength-3, MapHeight/3];
 blueDefender2Position = [MapLength-3, 2*MapHeight/3];
 blueGoalkeeperPosition = [MapLength-1, MapHeight/2];
 
+% Change striker position based on toss result
+if(kickoff_team == "Red")
+    redStrikerPosition = [5, MapHeight/2];
+    blueStrikerPosition = [MapLength-4.5, MapHeight/2];
+else
+    redStrikerPosition = [4.5, MapHeight/2];
+    blueStrikerPosition = [MapLength-5.5, MapHeight/2];
+end
 
 ballPosition = [MapLength/2, MapHeight/2];
 ballVelocity = [1, 0];
