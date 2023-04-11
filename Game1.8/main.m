@@ -66,13 +66,13 @@ for t = 1:simSteps
         %% %%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
 
         %% RED STRIKER BEHAVIOUR
-        [red_striker, red_defender1, red_defender2, blue_striker, blue_defender1, blue_defender2,  ball,BALL_POSSESSION, RESET]   = redStrikerBehaviour(red_striker, red_defender1, red_defender2, blue_striker, blue_defender1, blue_defender2,  ball, ballPlot, BALL_POSSESSION, TOLERANCE, TIME_STEP, OMEGA, red_strikerPlot, positionMatrixR, positionMatrixB);
+        [red_striker, red_defender1, red_defender2, blue_striker, blue_defender1, blue_defender2, ball, BALL_POSSESSION, RESET]   = redStrikerBehaviour(red_striker, red_defender1, red_defender2, blue_striker, blue_defender1, blue_defender2,  ball, ballPlot, BALL_POSSESSION, TOLERANCE, TIME_STEP, OMEGA, red_strikerPlot, positionMatrixR, positionMatrixB);
         %% RED DEFENDER1 BEHAVIOUR
-        [red_striker, red_defender1, ball]  = redDefenderBehaviour(red_striker, red_defender1, ball, ballPlot, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, red_defender1Plot, positionMatrixR,positionMatrixB);
+        [red_striker, red_defender1, red_defender2, blue_striker, blue_defender1, blue_defender2, ball,BALL_POSSESSION]  = redDefenderBehaviour1(red_striker, red_defender1, red_defender2, blue_striker, blue_defender1, blue_defender2, ball, ballPlot, BALL_POSSESSION, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, red_defender1Plot, positionMatrixR,positionMatrixB);
         %% RED DEFENDER2 BEHAVIOUR
         
         if(temp > 5) %% temporary setting
-        [red_striker, red_defender2, ball]  = redDefenderBehaviour(red_striker, red_defender2, ball, ballPlot, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, red_defender2Plot, positionMatrixR,positionMatrixB);
+        [red_striker, red_defender1, red_defender2, blue_striker, blue_defender1, blue_defender2, ball,BALL_POSSESSION]  = redDefenderBehaviour2(red_striker, red_defender1, red_defender2, blue_striker, blue_defender1, blue_defender2, ball, ballPlot, BALL_POSSESSION, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, red_defender2Plot, positionMatrixR,positionMatrixB);
         
         %% red GoalKeeper BEHAVIOUR
         red_gk = redGoalKeeperBehaviour(red_gk, ball, ballPlot, red_gkPlot,red_striker,red_defender1, red_defender2,TIME_STEP);
