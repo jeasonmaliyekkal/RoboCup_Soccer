@@ -1,4 +1,4 @@
-function [blue_striker_T, blue_defender2_T,  ball] =  blueDefender2Behaviour(blue_striker_T, blue_defender2_T, ball, ballPlotT, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, defenderPlotT, positionMatrixR,positionMatrixB)
+function [blue_striker_T, blue_defender1_T, blue_defender2_T, red_striker_T, red_defender1_T, red_defender2_T, ball, BALL_POSSESSION] =  blueDefender2Behaviour(blue_striker_T, blue_defender1_T, blue_defender2_T, red_striker_T, red_defender1_T, red_defender2_T, ball, ballPlotT, BALL_POSSESSION,TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, defenderPlotT, positionMatrixR,positionMatrixB)
 
     %%%%%%%%%%%%%%%%% GET POSSESSION %%%%%%%%%%%%%%%%%%%%
     if(blue_defender2_T.state == playerState.GET_POSSESSION)
@@ -10,17 +10,26 @@ function [blue_striker_T, blue_defender2_T,  ball] =  blueDefender2Behaviour(blu
                 blue_defender2_T.updatePos(defenderPlotT);
 
             else
-                if(ball.possessed == 0)
-                    blue_defender2_T.possession = 1;
-                    ball.possessed              = 1;
-                    blue_defender2_T.state      = playerState.DRIBBLE;
-                else
-                    blue_defender2_T.state      = playerState.TACKLE;
-                    ball.possessed              = 0;
-                    blue_defender2_T.possession = 1;
-                    ball.possessed              = 1;
-                    blue_defender2_T.state      = playerState.DRIBBLE;
+                blue_defender2_T.state      = playerState.TACKLE;
+                blue_defender2_T.counter    = 10;
+                
+                tackledPlayer             = tackle(blue_defender2_T.position, positionMatrixR);
+                switch(tackledPlayer)
+                    case(1)
+                        red_striker_T.state     = playerState.TACKLED;
+                        red_striker_T.counter   = 30;
+                    case(2)
+                        red_defender1_T.state   = playerState.TACKLED;
+                        red_defender1_T.counter = 30;
+                    case(3)
+                        red_defender2_T.state   = playerState.TACKLED;
+                        red_defender2_T.counter = 30;
                 end
+
+                BALL_POSSESSION           = 'B';
+                blue_defender2_T.possession = 1;
+                ball.possessed            = 1;
+                blue_defender2_T.state      = playerState.DRIBBLE;
 
             end
     end
@@ -91,6 +100,20 @@ function [blue_striker_T, blue_defender2_T,  ball] =  blueDefender2Behaviour(blu
                 blue_defender2_T.updatePos(defenderPlotT);
             end
      end
+     %%%%%%%%%%%%%%%%%% TACKLED %%%%%%%%%%%%%%%%%%%%%%
+     if(blue_defender2_T.state == playerState.TACKLED)
+        blue_defender2_T.possession   = 0;
+
+         if(blue_defender2_T.counter > 0)
+            blue_defender2_T.counter = blue_defender2_T.counter - 1;
+         else
+             if(BALL_POSSESSION == 'R')
+                blue_defender2_T.state = playerState.ASSIST;
+             else
+                blue_defender2_T.state = playerState.GET_POSSESSION;
+             end
+         end
+    end
            
 
 

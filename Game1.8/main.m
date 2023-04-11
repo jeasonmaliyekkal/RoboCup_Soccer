@@ -71,7 +71,7 @@ for t = 1:simSteps
         [red_striker, red_defender1, red_defender2, blue_striker, blue_defender1, blue_defender2, ball,BALL_POSSESSION]  = redDefenderBehaviour1(red_striker, red_defender1, red_defender2, blue_striker, blue_defender1, blue_defender2, ball, ballPlot, BALL_POSSESSION, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, red_defender1Plot, positionMatrixR,positionMatrixB);
         %% RED DEFENDER2 BEHAVIOUR
         
-        if(temp > 5) %% temporary setting
+        
         [red_striker, red_defender1, red_defender2, blue_striker, blue_defender1, blue_defender2, ball,BALL_POSSESSION]  = redDefenderBehaviour2(red_striker, red_defender1, red_defender2, blue_striker, blue_defender1, blue_defender2, ball, ballPlot, BALL_POSSESSION, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, red_defender2Plot, positionMatrixR,positionMatrixB);
         
         %% red GoalKeeper BEHAVIOUR
@@ -80,11 +80,10 @@ for t = 1:simSteps
 
         %% BLUE STRIKER BEHAVIOUR
         [blue_striker, blue_defender1, blue_defender2, red_striker, red_defender1, red_defender2, ball,  BALL_POSSESSION, RESET] =  blueStrikerBehaviour(blue_striker, blue_defender1, blue_defender2, red_striker, red_defender1, red_defender2, ball, ballPlot, BALL_POSSESSION, TOLERANCE,TIME_STEP,OMEGA, blue_strikerPlot, positionMatrixR, positionMatrixB);
-        end
         %% BLUE DEFENDER1 BEHAVIOUR
-        [blue_striker, blue_defender1, ball]  = blueDefender1Behaviour(blue_striker, blue_defender1, ball, ballPlot, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, blue_defender1Plot, positionMatrixR,positionMatrixB);
+        [blue_striker, blue_defender1, blue_defender2, red_striker, red_defender1, red_defender2, ball,  BALL_POSSESSION]  = blueDefender1Behaviour(blue_striker, blue_defender1, blue_defender2, red_striker, red_defender1, red_defender2, ball, ballPlot, BALL_POSSESSION, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, blue_defender1Plot, positionMatrixR,positionMatrixB);
         %% BLUE DEFENDER2 BEHAVIOUR
-        [blue_striker, blue_defender2, ball]  = blueDefender2Behaviour(blue_striker, blue_defender2, ball, ballPlot, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, blue_defender2Plot, positionMatrixR,positionMatrixB);
+        [blue_striker, blue_defender1, blue_defender2, red_striker, red_defender1, red_defender2, ball,  BALL_POSSESSION]  = blueDefender2Behaviour(blue_striker, blue_defender1, blue_defender2, red_striker, red_defender1, red_defender2, ball, ballPlot, BALL_POSSESSION, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, blue_defender2Plot, positionMatrixR,positionMatrixB);
         %% BLUE GoalKeeper BEHAVIOUR
         blue_gk = blueGoalKeeperBehaviour(blue_gk, ball, ballPlot, blue_gkPlot,blue_striker,blue_defender1, blue_defender2,TIME_STEP);
        
