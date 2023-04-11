@@ -2,7 +2,7 @@ clc;
 clear;
 
 %% Simulate a coin toss
-if rand() < 0
+if rand() < 0.5
     kickoff_team = 'Red';
 else
     kickoff_team = 'Blue';
