@@ -87,7 +87,7 @@ for t = 1:simSteps
         %% BLUE GoalKeeper BEHAVIOUR
         blue_gk = blueGoalKeeperBehaviour(blue_gk, ball, ballPlot, blue_gkPlot,blue_striker,blue_defender1, blue_defender2,TIME_STEP);
        
-
+        
 
         if(ball.velocity > 0 && ball.possessed == 0)
             ball = ball.calcPhysics(TIME_STEP);
@@ -98,22 +98,26 @@ for t = 1:simSteps
         
         red_striker  = headAngleCorrection(red_striker);
         blue_striker = headAngleCorrection(blue_striker);
-        
 
-
-
-    if(RESET == 1)
-        if(ball.position(1) < 1)
-            pause(0.8);
-            plotSoccerField;
-            RESET = 0;
-            flag = 1;
-            temp = -35;
+        if(RESET == 1)
+            if(ball.position(1) < LEFT_GOAL_ORIGIN_X + GOAL_LENGTH && ball.position(2) > LEFT_GOAL_ORIGIN_Y && ball.position(2) < LEFT_GOAL_ORIGIN_Y + GOAL_WIDTH)
+                pause(0.8);
+                scoreRight = scoreRight + 1;
+                plotSoccerField;
+                RESET = 0;
+                flag = 1;
+                temp = -35;
+            elseif(ball.position(1) > RIGHT_GOAL_ORIGIN_X && ball.position(2) > RIGHT_GOAL_ORIGIN_Y && ball.position(2) < RIGHT_GOAL_ORIGIN_Y + GOAL_WIDTH)
+                pause(0.8);
+                scoreLeft = scoreLeft + 1;
+                plotSoccerField;
+                RESET = 0;
+                flag = 1;
+                temp = -35;
+            end
         end
     end
-    end
 temp = temp+1;
-ball;
 red_striker;
 red_defender1;
 blue_striker;
