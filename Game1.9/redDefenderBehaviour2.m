@@ -22,13 +22,13 @@ function [red_striker_T, red_defender1_T, red_defender2_T, blue_striker_T, blue_
                     switch(tackledPlayer)
                         case(1)
                             blue_striker_T.state     = playerState.TACKLED;
-                            blue_striker_T.counter   = 30;
+                            blue_striker_T.counter   = 15;
                         case(2)
                             blue_defender1_T.state   = playerState.TACKLED;
-                            blue_defender1_T.counter = 30;
+                            blue_defender1_T.counter = 15;
                         case(3)
                             blue_defender2_T.state   = playerState.TACKLED;
-                            blue_defender2_T.counter = 30;
+                            blue_defender2_T.counter = 15;
                     end
 
                     BALL_POSSESSION          = 'R';                    
@@ -102,11 +102,12 @@ function [red_striker_T, red_defender1_T, red_defender2_T, blue_striker_T, blue_
             redDef_skr = calcDistBearing(red_defender2_T.position, positionMatrixR(1,:));
             
             if(redDef_skr(1) > PLAYER_GAP)
-                red_defender2_T.headAngle = redDef_skr(2) - 0.5*rand(1);
+                red_defender2_T.headAngle = redDef_skr(2) + 0.5*rand(1);
                 red_defender2_T           = red_defender2_T.move(TIME_STEP);
                 red_defender2_T.updatePos(defenderPlotT);
             end
-     end
+    end
+    
      %%%%%%%%%%%%%%%%%% TACKLED %%%%%%%%%%%%%%%%%%%%%%
     if(red_defender2_T.state == playerState.TACKLED)
         red_defender2_T.possession   = 0;
