@@ -1,10 +1,10 @@
 function [red_striker_T, red_defender1_T, red_defender2_T, blue_striker_T, blue_defender1_T, blue_defender2_T,  ball, BALL_POSSESSION, RESET] =  redStrikerBehaviour(red_striker_T, red_defender1_T, red_defender2_T, blue_striker_T, blue_defender1_T, blue_defender2_T,  ball, ballPlotT, BALL_POSSESSION, TOLERANCE, PLAYER_GAP, TIME_STEP,OMEGA, strikerPlotT, positionMatrixR, positionMatrixB, RESET )  
          
          %%%%%%%%%%%%%%%%% GET POSSESSION %%%%%%%%%%%%%%%%%%%
-         if(BALL_POSSESSION == 'B' && red_striker_T.state ~= playerState.TACKLED)
+         if(BALL_POSSESSION == 'B' && red_striker_T.state ~= playerState.TACKLED && red_striker_T.state ~= playerState.WAIT)
              red_striker_T.state = playerState.GET_POSSESSION;
          end
-         if(BALL_POSSESSION == 'R' && red_striker_T.possession == 0)
+         if(BALL_POSSESSION == 'R' && red_striker_T.possession == 0 && ball.possessed == 1)
              red_striker_T.state = playerState.ASSIST;
          end
 
@@ -21,6 +21,7 @@ function [red_striker_T, red_defender1_T, red_defender2_T, blue_striker_T, blue_
                 if(ball.possessed == 0)
                     red_striker_T.possession = 1;
                     ball.possessed           = 1;
+                    BALL_POSSESSION          = 'R';
                     red_striker_T.state      = playerState.DRIBBLE;
                 else
                     red_striker_T.state      = playerState.TACKLE;
@@ -156,13 +157,13 @@ function [red_striker_T, red_defender1_T, red_defender2_T, blue_striker_T, blue_
 
         %%%%%%%%%%%%%%%%%%%% WAIT %%%%%%%%%%%%%%%%%%%%%%
         if(red_striker_T.state == playerState.WAIT) 
-            redSkr_Ball = calcDistBearing(red_striker_T.position, ball.position);
-            if(redSkr_Ball(1) <  TOLERANCE)
-                red_striker_T.possession = 1;
-                ball.possessed           = 1;
-                %red_striker_T.state      = playerState.SHOOT;
+            if(red_striker_T.counter > 0)
+                red_striker_T.counter = red_striker_T.counter - 1;
+            elseif(BALL_POSSESSION == 'R')
+                red_striker_T.state = playerState.ASSIST;
+            else
+                red_striker_T.state = playerState.GET_POSSESSION;
             end
-
         end
 
 
@@ -175,11 +176,13 @@ function [red_striker_T, red_defender1_T, red_defender2_T, blue_striker_T, blue_
         if(red_striker_T.state == playerState.SHOOT)
             if(red_striker_T.position(1,2) < 5.3 && red_striker_T.position(1,2) > 2.7)
                 red_striker_T.headAngle = 0.3*rand(1);
-                pause(0.1);
-                ball.velocity            = red_striker_T.kickBall(ball.mass, "PASS", TIME_STEP);
+                %pause(0.1);
+                ball.velocity            = red_striker_T.kickBall(ball.mass, "SHOOT", TIME_STEP);
                 ball.direction           = red_striker_T.headAngle;
                 ball.possessed           = 0;
                 red_striker_T.possession = 0;
+                red_striker_T.counter    = 10;
+                %red_striker_T.state      = playerState.WAIT;
                 RESET                    = 1;
             end
         end
