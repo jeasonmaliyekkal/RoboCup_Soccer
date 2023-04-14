@@ -7,6 +7,10 @@ if rand() < 0.5
 else
     kickoff_team = 'Blue';
 end
+
+is_not_goal = 0;
+
+
 plotSoccerField;
 
 %% Simulation setup
@@ -30,15 +34,16 @@ game = 1;
 flag = 1;
 RESET = 0;
 
+
 temp = 0;
 BALL_POSSESSION = 'N';
 for t = 1:simSteps
     
      % title delayed to show who got toss
     if(t<75)
-        title(sprintf("Robocup Soccer\n%s won the toss and chose to kickoff",kickoff_team));
+        title(sprintf("RoboCup Soccer\n%s won the toss and chose to kickoff",kickoff_team));
     else
-        title("Robocup Soccer");
+        title("RoboCup Soccer");
     end
     
     % Print scores
@@ -112,6 +117,9 @@ for t = 1:simSteps
                 RESET       = 0;
                 flag        = 1;
                 temp        = -35;
+            elseif(ball.position(1) < 1 || ball.position(1) > 10)
+                is_not_goal = 1;
+                plotSoccerField;
             end
         end
     end

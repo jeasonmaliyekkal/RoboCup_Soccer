@@ -39,6 +39,8 @@ blueDefender1Position = [MapLength-3, MapHeight/3];
 blueDefender2Position = [MapLength-3, 2*MapHeight/3];
 blueGoalkeeperPosition = [MapLength-1, MapHeight/2];
 
+
+
 % Change striker position based on toss result
 if(kickoff_team == "Red")
     redStrikerPosition = [5, MapHeight/2];
@@ -50,3 +52,15 @@ end
 
 ballPosition = [MapLength/2, MapHeight/2];
 ballVelocity = [1, 0];
+
+
+if(is_not_goal)
+    if(ball.position(1) < 5.5)
+        redDefender2Position = [2 , MapHeight/2];
+        ballPosition = [3, MapHeight/2];
+    else
+        blueDefender2Position = [9 , MapHeight/2];
+        ballPosition = [8, MapHeight/2];
+    end
+    is_not_goal = 0;
+end
