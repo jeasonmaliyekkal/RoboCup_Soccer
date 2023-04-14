@@ -87,7 +87,7 @@ for t = 1:simSteps
         %% BLUE DEFENDER2 BEHAVIOUR
         [blue_striker, blue_defender1, blue_defender2, red_striker, red_defender1, red_defender2, ball,  BALL_POSSESSION]  = blueDefender2Behaviour(blue_striker, blue_defender1, blue_defender2, red_striker, red_defender1, red_defender2, ball, ballPlot, BALL_POSSESSION, TOLERANCE, PLAYER_GAP, TIME_STEP, OMEGA, blue_defender2Plot, positionMatrixR,positionMatrixB);
         %% BLUE GoalKeeper BEHAVIOUR
-        blue_gk = blueGoalKeeperBehaviour(blue_gk, ball, ballPlot, blue_gkPlot,blue_striker,blue_defender1, blue_defender2,TIME_STEP);
+        [blue_gk, ball, BALL_POSSESSION, RESET_GK_B] = blueGoalKeeperBehaviour(blue_gk, blue_gkPlot, blue_striker, blue_defender1, blue_defender2, ball, ballPlot, BALL_POSSESSION, TOLERANCE, TIME_STEP, OMEGA, positionMatrixR, positionMatrixB);
        
         
 
@@ -98,8 +98,16 @@ for t = 1:simSteps
             ball.velocity = 0;
         end
         
-        red_striker  = headAngleCorrection(red_striker);
-        blue_striker = headAngleCorrection(blue_striker);
+        %% Correct heading angle
+        red_striker    = headAngleCorrection(red_striker);
+        red_defender1  = headAngleCorrection(red_defender1);
+        red_defender2  = headAngleCorrection(red_defender2);
+        red_gk         = headAngleCorrection(red_gk);
+        blue_striker   = headAngleCorrection(blue_striker);
+        blue_defender1 = headAngleCorrection(blue_defender1);
+        blue_defender2 = headAngleCorrection(blue_defender2);
+        blue_gk        = headAngleCorrection(blue_gk);
+        
 
         RESET = RESET_R|RESET_B;
         if(RESET == 1)
