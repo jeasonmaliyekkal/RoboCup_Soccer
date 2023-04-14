@@ -32,7 +32,10 @@ classdef Player
         function ball_velocity = kickBall(~, ball_mass, action, dt)
             % Kick the ball towards a specified target position with a specified power
             if(action == "PASS")
-                ball_velocity = (5/ball_mass)*dt; %Force = 1.1N
+                ball_velocity = (5/ball_mass)*dt; %Force = 5N
+            elseif(action == "SHOOT")
+                ball_velocity = (8/ball_mass)*dt; %Force = 8N
+
             end
         end
  
