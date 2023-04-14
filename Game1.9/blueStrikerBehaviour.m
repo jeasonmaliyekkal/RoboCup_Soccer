@@ -1,13 +1,16 @@
 function [blue_striker_T, blue_defender1_T, blue_defender2_T, red_striker_T, red_defender1_T, red_defender2_T, ball, BALL_POSSESSION, RESET] =  blueStrikerBehaviour(blue_striker_T, blue_defender1_T, blue_defender2_T, red_striker_T, red_defender1_T, red_defender2_T, ball, ballPlotT, BALL_POSSESSION,  TOLERANCE, PLAYER_GAP, TIME_STEP,OMEGA, strikerPlotT, positionMatrixR, positionMatrixB, RESET )
 
-         %%%%%%%%%%%%%%%%% GET POSSESSION %%%%%%%%%%%%%%%%%%%
+         %%%%%%%%%%%%%%%%% CONSTRAINTS %%%%%%%%%%%%%%%%%%%
          if(BALL_POSSESSION == 'R' && blue_striker_T.state ~=playerState.TACKLED)
              blue_striker_T.state = playerState.GET_POSSESSION;
          end
-          %If blue defender aquires the possession, set striker to ASSIST
-         if(BALL_POSSESSION == 'B' && blue_striker_T.possession == 0)
+
+         if(BALL_POSSESSION == 'B' && blue_striker_T.possession == 0 && ball.possessed == 1)
                 blue_striker_T.state = playerState.ASSIST;
          end
+
+
+         %%%%%%%%%%%%%%%%% GET POSSESSION %%%%%%%%%%%%%%%%%%%
          if(blue_striker_T.state == playerState.GET_POSSESSION)
             
             blueSkr_Ball = calcDistBearing(blue_striker_T.position, ball.position);
@@ -21,6 +24,7 @@ function [blue_striker_T, blue_defender1_T, blue_defender2_T, red_striker_T, red
                 if(ball.possessed == 0)
                     blue_striker_T.possession = 1;
                     ball.possessed            = 1;
+                    BALL_POSSESSION           = 'B';
                     blue_striker_T.state      = playerState.DRIBBLE;
                 else
                     blue_striker_T.state      = playerState.TACKLE;
@@ -129,7 +133,7 @@ function [blue_striker_T, blue_defender1_T, blue_defender2_T, red_striker_T, red
             end
             
             %% Find player to assist
-            assistPlayerDist = [0,0];
+            assistPlayerDist = [3, 0];
             if(blue_defender1_T.possession ==1)
                 assistPlayerDist = calcDistBearing(blue_striker_T.position, blue_defender1_T.position);
             elseif(blue_defender2_T.possession ==1)
@@ -147,7 +151,8 @@ function [blue_striker_T, blue_defender1_T, blue_defender2_T, red_striker_T, red
                 blue_striker_T.headAngle = blueSkr_Goal(2) - 0.5*rand(1);
                 blue_striker_T           = blue_striker_T.move(TIME_STEP);
                 blue_striker_T.updatePos(strikerPlotT);
-            elseif(assistPlayerDist(1) > PLAYER_GAP)
+
+            elseif(assistPlayerDist(1) > PLAYER_GAP && blue_striker_T.position(1) < 8.5)
                 blue_striker_T.headAngle = assistPlayerDist(2) - 0.5*rand(1);
                 blue_striker_T           = blue_striker_T.move(TIME_STEP);
                 blue_striker_T.updatePos(strikerPlotT);
@@ -178,7 +183,7 @@ function [blue_striker_T, blue_defender1_T, blue_defender2_T, red_striker_T, red
             if(blue_striker_T.position(1,2) < 5.3 && blue_striker_T.position(1,2) > 2.7)
                 blue_striker_T.headAngle    = pi + 0.3*rand(1);
                 pause(0.1);
-                ball.velocity               = blue_striker_T.kickBall(ball.mass, "PASS", TIME_STEP);
+                ball.velocity               = blue_striker_T.kickBall(ball.mass, "SHOOT", TIME_STEP);
                 ball.direction              = blue_striker_T.headAngle;
                 ball.possessed              = 0;
                 blue_striker_T.possession   = 0;
