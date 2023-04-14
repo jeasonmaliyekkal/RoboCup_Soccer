@@ -8,6 +8,6 @@ classdef playerState < Simulink.IntEnumType
         TACKLE(6)
         TACKLED(7)
         ASSIST(8)
-        
+        SAVE(9)
     end
 end
