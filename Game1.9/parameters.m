@@ -1,7 +1,7 @@
 %% Parameters
 
 TOLERANCE = 0.20;
-PLAYER_GAP = 1.5;
+PLAYER_GAP = 2.5;
 
 %% Define the map
 MapLength = 11;
