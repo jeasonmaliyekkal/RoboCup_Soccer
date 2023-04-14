@@ -118,8 +118,8 @@ for t = 1:simSteps
 temp = temp+1;
 red_striker;
 red_defender1;
-blue_striker
-blue_defender1
-blue_defender2
+blue_striker;
+blue_defender1;
+blue_defender2;
 pause(TIME_STEP);
 end

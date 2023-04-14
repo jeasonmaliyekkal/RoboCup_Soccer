@@ -73,26 +73,33 @@ function [blue_striker_T, blue_defender1_T, blue_defender2_T, red_striker_T, red
 
     end
     
-    %%%%%%%%%%%%%%%%%%%% PASS %%%%%%%%%%%%%%%%%%%%%
-    if(blue_defender2_T.state == playerState.PASS)
-        blueDef_skr = calcDistBearing(blue_defender2_T.position, positionMatrixB(1,:));
-        if (abs(blue_defender2_T.headAngle-blueDef_skr(2)) >  TOLERANCE/10)
-            if(blue_defender2_T.position(1,2) < positionMatrixB(1,2))
-                blue_defender2_T =  blue_defender2_T.turnPlayer( 1, OMEGA, TIME_STEP);
+    %%%%%%%%%%%%%%%%%%% PASS %%%%%%%%%%%%%%%%%%%%%
+    if (blue_defender2_T.state == playerState.PASS)
+    blueDef_skr = calcDistBearing(blue_defender2_T.position, positionMatrixB(1,:)); % distance and bearing to blue striker
+    blueDef_def1 = calcDistBearing(blue_defender2_T.position, positionMatrixB(2,:)); % distance and bearing to blue defender 1
+        if (abs(blue_defender2_T.headAngle - blueDef_skr(2)) <= TOLERANCE/10) % pass to blue striker
+            ball.velocity = blue_defender2_T.kickBall(ball.mass, "PASS", TIME_STEP);
+            ball.direction = blue_defender2_T.headAngle;
+            blue_defender2_T.state = playerState.ASSIST;
+            ball.possessed = 0;
+            blue_striker_T.state = playerState.GET_POSSESSION;
+        elseif (abs(blue_defender2_T.headAngle - blueDef_def1(2)) <= TOLERANCE/10 ) % pass to blue defender 1
+            ball.velocity = blue_defender2_T.kickBall(ball.mass, "PASS", TIME_STEP);
+            ball.direction = blue_defender2_T.headAngle;
+            blue_defender2_T.state = playerState.ASSIST;
+            ball.possessed = 0;
+            blue_defender1_T.state = playerState.GET_POSSESSION;
+        else % adjust position
+            if (blue_defender2_T.position(1,2) < positionMatrixB(1,2))
+                blue_defender2_T = blue_defender2_T.turnPlayer(1, OMEGA, TIME_STEP);
                 blue_defender2_T.updatePos(defenderPlotT);
-                ball.position  = [blue_defender2_T.position(1) + 0.2*cos(blue_defender2_T.headAngle), blue_defender2_T.position(2) + 0.2*sin(blue_defender2_T.headAngle)];  % 0.4 -> Robot radius, to plot the ball at the end of circle
+                ball.position = [blue_defender2_T.position(1) + 0.4*cos(blue_defender2_T.headAngle), blue_defender2_T.position(2) + 0.2*sin(blue_defender2_T.headAngle)];  % 0.4 -> Robot radius, to plot the ball at the end of circle
                 ball.updatePlot(ballPlotT);
                 blue_striker_T.state = playerState.WAIT;
             end
-        else
-                    ball.velocity       = blue_defender2_T.kickBall(ball.mass, "PASS", TIME_STEP);
-                    ball.direction      = blue_defender2_T.headAngle;
-                    blue_defender2_T.state = playerState.ASSIST;
-                    ball.possessed      = 0;
-                    blue_striker_T.state = playerState.GET_POSSESSION;
-  
         end
     end
+
     %%%%%%%%%%%%%%%%%% ASSIST %%%%%%%%%%%%%%%%%%%%%
     if(blue_defender2_T.state == playerState.ASSIST) 
             blueDef_skr = calcDistBearing(blue_defender2_T.position, positionMatrixB(1,:));
