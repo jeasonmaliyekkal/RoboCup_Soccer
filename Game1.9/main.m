@@ -14,7 +14,7 @@ is_not_goal = 0;
 plotSoccerField;
 
 %% Simulation setup
-simulationTime = 25;
+simulationTime = 30;
 stepSize = 0.05;
 % frame_rate = PLAYER_SPEED;
 TIME_STEP = 0.1;
