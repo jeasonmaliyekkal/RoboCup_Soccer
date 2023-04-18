@@ -80,7 +80,7 @@ function [red_striker_T, red_defender1_T, red_defender2_T, blue_striker_T, blue_
     %%%%%%%%%%%%%%%%%%%% PASS %%%%%%%%%%%%%%%%%%%%%
     if(red_defender1_T.state == playerState.PASS)
         redDef_skr = calcDistBearing(red_defender1_T.position, positionMatrixR(1,:));
-        if (abs(red_defender1_T.headAngle-redDef_skr(2)) >  TOLERANCE/10)
+        if (abs(red_defender1_T.headAngle-redDef_skr(2)) >  TOLERANCE/2)
             if(red_defender1_T.position(1,2) < positionMatrixR(1,2))
                 red_defender1_T =  red_defender1_T.turnPlayer( 1, OMEGA, TIME_STEP);
                 red_defender1_T.updatePos(defenderPlotT);
@@ -93,6 +93,7 @@ function [red_striker_T, red_defender1_T, red_defender2_T, blue_striker_T, blue_
                     ball.direction      = red_defender1_T.headAngle;
                     red_defender1_T.state = playerState.ASSIST;
                     ball.possessed      = 0;
+                    red_defender1_T.possession = 0;
                     red_striker_T.state = playerState.GET_POSSESSION;
   
         end
@@ -101,11 +102,12 @@ function [red_striker_T, red_defender1_T, red_defender2_T, blue_striker_T, blue_
     if(red_defender1_T.state == playerState.ASSIST) 
             redDef_skr = calcDistBearing(red_defender1_T.position, positionMatrixR(1,:));
             
-            if(redDef_skr(1) > PLAYER_GAP)
+            if(redDef_skr(1) > 1.5)
                 red_defender1_T.headAngle = redDef_skr(2) - 0.5*rand(1);
                 red_defender1_T           = red_defender1_T.move(TIME_STEP);
                 red_defender1_T.updatePos(defenderPlotT);
             end
+
     end
     %%%%%%%%%%%%%%%%%% TACKLED %%%%%%%%%%%%%%%%%%%%%%
     if(red_defender1_T.state == playerState.TACKLED)
