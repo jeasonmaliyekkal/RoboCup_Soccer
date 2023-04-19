@@ -82,12 +82,14 @@ function [blue_striker_T, blue_defender1_T, blue_defender2_T, red_striker_T, red
             ball.direction = blue_defender2_T.headAngle;
             blue_defender2_T.state = playerState.ASSIST;
             ball.possessed = 0;
+            blue_defender2_T.possession = 0;
             blue_striker_T.state = playerState.GET_POSSESSION;
         elseif (abs(blue_defender2_T.headAngle - blueDef_def1(2)) <= TOLERANCE/10 ) % pass to blue defender 1
             ball.velocity = blue_defender2_T.kickBall(ball.mass, "PASS", TIME_STEP);
             ball.direction = blue_defender2_T.headAngle;
             blue_defender2_T.state = playerState.ASSIST;
             ball.possessed = 0;
+            blue_defender2_T.possession = 0;
             blue_defender1_T.state = playerState.GET_POSSESSION;
         else % adjust position
             if (blue_defender2_T.position(1,2) < positionMatrixB(1,2))
